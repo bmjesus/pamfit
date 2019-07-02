@@ -24,13 +24,11 @@ Imports:
     magrittr,
     parallel,
     snow,
-    minpack.lm
+    minpack.lm,
+    shinydashboard
 License: BSD
 Collate: 
-    'shiny_1.R' 
-    'shiny2.R' 
-    'shiny3.R'
-    'shiny4.R'
+    'shiny_master.R' 
 RoxygenNote: 6.1.1
 NeedsCompilation: no
 Packaged: 2016-07-13 14:01:17 UTC; bmjesus
