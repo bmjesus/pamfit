@@ -136,18 +136,18 @@ fv_fm_img[fv_fm_img > 0.85] <- NaN
 light <- my.data$par.levels
 abs <- my.data$abs
 if(abs == 'yes'){
-  nir <- raster::subset(all.data$cropped.data, 'NIR')
-  red <- raster::subset(all.data$cropped.data, 'Red')
-  abs.rast <- 1 - red / nir
+  nir <- raster::subset(my.data$cropped.data, 'NIR')
+  red <- raster::subset(my.data$cropped.data, 'Red')
+  abs.rast <<- 1 - red / nir
 }
 
 etr.fun.1 <- function(x) { x * light * 0.5 }
 etr.fun.2 <- function(x) {x * light * 0.5 * abs.rast}
 
 if(abs == "no"){
-  etr <- raster::calc(fv_fm_img, etr.fun.1)
+  etr <<- raster::calc(fv_fm_img, etr.fun.1)
 } else {
-  etr <- raster::calc(fvm_fm_img, etr.fun.2)
+  etr <<- raster::calc(fv_fm_img, etr.fun.2)
   }
 
 my.data$f_img <- f_img

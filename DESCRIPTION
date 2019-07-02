@@ -34,7 +34,6 @@ Collate:
 RoxygenNote: 6.1.1
 NeedsCompilation: no
 Packaged: 2016-07-13 14:01:17 UTC; bmjesus
-Author: Jesus Bruno [aut,cre]
 Maintainer: Bruno Jesus <bmjesus@gmail.com>
 VignetteBuilder: knitr
 
