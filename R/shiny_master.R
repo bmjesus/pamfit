@@ -3,7 +3,7 @@
 #' @return Returns a list with the images of the RLC parameters
 #' @keywords external
 #' @importFrom magrittr %>%
-#' @importFrom sp CRS
+#' @import sp
 #' @examples
 #'
 #'
@@ -50,7 +50,7 @@ ui <- shinydashboard::dashboardPage(
     #dynamic sidebarMenu driven by folder heirachry
     shinydashboard::sidebarMenu(id = 'sidebarmenu',
                   shinydashboard::menuItem("1. Upload Image", tabName = "uploadImage",  icon = shiny::icon("group", lib="font-awesome")),
-                  shinydashboard::menuItem("2. Select ROI", tabName = "selectROI", icon = icon("check-circle", lib = "font-awesome")),
+                  shinydashboard::menuItem("2. Select ROI", tabName = "selectROI", icon = shiny::icon("check-circle", lib = "font-awesome")),
                   shinydashboard::menuItem("3. Select Fit Parameters", tabName = "selectFitParameters", icon = shiny::icon("check-circle", lib = "font-awesome")),
                   shinydashboard::menuItem("4. Summary Statistics", tabName = "summaryStatistics", icon = shiny::icon("check-circle", lib = "font-awesome")),
                 shiny::conditionalPanel("input.sidebarmenu === 'summaryStatistics'",
