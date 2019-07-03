@@ -29,6 +29,13 @@ shiny_master<-function(){
 
 #`%>%` <- magrittr::`%>%`
 
+
+#creating a hiddent environment to store the light levels and the app.data objects
+if (exists(".tmp.pamfit")==FALSE){
+    .tmp.pamfit<<-new.env()
+  }
+
+
 #this increases uplaod file size to 30MB
 options(shiny.maxRequestSize = 30*1024^2)
 
@@ -227,8 +234,9 @@ server <- function(input, output, session){
       #establish number of light levels to have
       no.light.steps <- (raster::nlayers(my.brick) - 4) / 2
       #check to see if light levels already loaded (object tmp.light in global environment)
-      if(exists('tmp.light')){
-        my.int.par <- tmp.light
+      #if(exists('tmp.light'))
+        if(!is.null(.tmp.pamfit$.tmp.light[1])){
+        my.int.par <- .tmp.pamfit$.tmp.light
         #check right number of light levels apparent
         if(length(my.int.par) != no.light.steps){
           my.int.par <- rep('NA', no.light.steps)
@@ -272,7 +280,9 @@ server <- function(input, output, session){
     #send to app.data and send par.levels to s1.env to check on reload...
     app.data$par.levels <- my.par
     #writeout tmp.light to global environment?
-    assign('tmp.light', my.par, envir = .GlobalEnv)
+    #assign('tmp.light', my.par, envir = .GlobalEnv)
+    #writeout tmp.light to private environment
+    assign('.tmp.light', my.par, envir = .tmp.pamfit)
 
     #apply smoothing to original data set
     if(app.data$smooth > 0){
