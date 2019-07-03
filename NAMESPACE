@@ -2,3 +2,4 @@
 
 export(shiny_master)
 importFrom(magrittr,"%>%")
+importFrom(sp,CRS)

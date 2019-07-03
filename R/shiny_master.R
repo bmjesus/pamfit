@@ -3,6 +3,7 @@
 #' @return Returns a list with the images of the RLC parameters
 #' @keywords external
 #' @importFrom magrittr %>%
+#' @importFrom sp CRS
 #' @examples
 #'
 #'
@@ -48,10 +49,10 @@ ui <- shinydashboard::dashboardPage(
   shinydashboard::dashboardSidebar(
     #dynamic sidebarMenu driven by folder heirachry
     shinydashboard::sidebarMenu(id = 'sidebarmenu',
-                menuItem("1. Upload Image", tabName = "uploadImage",  icon = icon("group", lib="font-awesome")),
-                menuItem("2. Select ROI", tabName = "selectROI", icon = icon("check-circle", lib = "font-awesome")),
-                menuItem("3. Select Fit Parameters", tabName = "selectFitParameters", icon = icon("check-circle", lib = "font-awesome")),
-                menuItem("4. Summary Statistics", tabName = "summaryStatistics", icon = icon("check-circle", lib = "font-awesome")),
+                  shinydashboard::menuItem("1. Upload Image", tabName = "uploadImage",  icon = shiny::icon("group", lib="font-awesome")),
+                  shinydashboard::menuItem("2. Select ROI", tabName = "selectROI", icon = icon("check-circle", lib = "font-awesome")),
+                  shinydashboard::menuItem("3. Select Fit Parameters", tabName = "selectFitParameters", icon = shiny::icon("check-circle", lib = "font-awesome")),
+                  shinydashboard::menuItem("4. Summary Statistics", tabName = "summaryStatistics", icon = shiny::icon("check-circle", lib = "font-awesome")),
                 shiny::conditionalPanel("input.sidebarmenu === 'summaryStatistics'",
                                  shiny::uiOutput('selectBrick'),
                                  shiny::htmlOutput('selectLayer')
