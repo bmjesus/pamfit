@@ -25,7 +25,9 @@ Imports:
     parallel,
     snow,
     minpack.lm,
-    shinydashboard
+    shinydashboard,
+    Orcs,
+    shinyFiles
 License: BSD
 Collate: 
     'shiny_master.R' 
