@@ -9,7 +9,7 @@
 #'
 #' @export
 #shiny app to input a file and read in light levels
-shiny_master2<-function(){
+shiny_master<-function(){
 
   `%>%` <- magrittr::`%>%`
 
