@@ -53,10 +53,10 @@ shiny_master<-function(){
     shinydashboard::dashboardBody(
 
       #define CSS section
-      tags$head(
-        tags$style(
+      shiny::tags$head(
+        shiny::tags$style(
           # Colorize the actionButton.
-          HTML(
+          shiny::HTML(
             '.bruno{
             background-color:#7FFF00;
 }
@@ -72,7 +72,7 @@ background-color: red;
       shinydashboard::tabItems(
         shinydashboard::tabItem(
           #this is our shiny 1 tab
-          tabName = 'uploadImage',
+          shinydashboard::tabName = 'uploadImage',
 
           shiny::fluidPage(
 
@@ -103,13 +103,13 @@ background-color: red;
         ),
         shinydashboard::tabItem(tabName = 'selectROI',
                                 shiny::fluidRow(
-                                  column(10,
+                                  shiny::column(10,
                                          leaflet::leafletOutput("leafmap", height = '600px')
                                   ), #end of first 8 columns
-                                  column(2,
-                                         hr(),
+                                  shiny::column(2,
+                                        shiny::hr(),
                                          shiny::actionButton('exportROI', 'Export ROI?', width = '100%'), #no server side yet
-                                         br(),
+                                        shiny::br(),
                                          shiny::actionButton('importROI', 'Import ROI?', width = '100%'), #no server side yet
                                          shiny::actionButton('confirm2', 'Confirm ROI', width = '100%')
                                   )#end of last 4 columns
@@ -154,10 +154,10 @@ background-color: red;
                                                                                                        shiny::uiOutput('selectBrick', width = '50%')
                                                                          )#end of column1
                                                                          ),#end of row 1
-                                                                         shiny::fluidRow(column(10,
+                                                                         shiny::fluidRow(shiny::column(10,
                                                                                                 leaflet::leafletOutput('rasterImage')
                                                                          ),
-                                                                         column(2,
+                                                                         shiny::column(2,
                                                                                 shiny::htmlOutput('selectLayer')
                                                                          )
                                                                          )#end of row 2
@@ -170,11 +170,11 @@ background-color: red;
                                                                            shiny::uiOutput('selectParameter', width = '100%')
                                                                          ),#end of row 1
                                                                          shiny::fluidRow(
-                                                                           column(10,
+                                                                           shiny::column(10,
                                                                                   leaflet::leafletOutput('modelOutputs', width = '100%'),
                                                                                   shiny::uiOutput('zlim', width = '100%')
                                                                            ),
-                                                                           column(2,
+                                                                           shiny::column(2,
                                                                                   shiny::uiOutput('zmin'),
                                                                                   shiny::uiOutput('zmax'),
                                                                                   shiny::HTML('<b>Current Value</b>'),
@@ -204,11 +204,11 @@ background-color: red;
                                                                             shiny::uiOutput('selectParameter2', width = '100%')
                                                                           ),#end of row 1
                                                                           shiny::fluidRow(
-                                                                            column(10,
+                                                                            shiny::column(10,
                                                                                    leaflet::leafletOutput('modelOutputs2', width = '100%'),
                                                                                    shiny::uiOutput('zlim2', width = '100%')
                                                                             ),
-                                                                            column(2,
+                                                                            shiny::column(2,
                                                                                    shiny::uiOutput('zmin2'),
                                                                                    shiny::uiOutput('zmax2'),
                                                                                    shiny::HTML('<b>Current Value</b>'),
@@ -1291,16 +1291,16 @@ background-color: red;
       showModal(
         modalDialog(
           title = 'Save Data', size = 'l',
-          fluidRow(
-            column(4,
+          shiny::fluidRow(
+            shiny::column(4,
                    radioButtons('parameter.space', '1. Choose Parameters',
                                 choices = my.choices, selected = 'All data')
             ),
-            column(4,
+            shiny::column(4,
                    radioButtons('output.types', '2. Choose Output Format',
                                 choices = c('TIFF file(s)', 'CSV file(s)'), selected = 'TIFF file(s)')
             ),
-            column(4,
+            shiny::column(4,
                    HTML('<b>3. Save Data       </b>'),
                    downloadButton("downloadData", "Save Data")
             )
@@ -1420,14 +1420,14 @@ background-color: red;
 
         appendTab('mainPanel',
                   tabPanel('Transect',
-                           fluidPage(
-                             fluidRow(
+                           shiny::fluidPage(
+                             shiny::fluidRow(
                                plotly::plotlyOutput('transectPlot', width = '100%', height='400px')
                              ),
-                             fluidRow(
+                             shiny::fluidRow(
                                uiOutput('transectX')
                              ),
-                             fluidRow(
+                             shiny::fluidRow(
                                uiOutput('transectY')
                              )
                            )))
@@ -1437,20 +1437,20 @@ background-color: red;
 
         appendTab('mainPanel',
                   tabPanel('ROI',
-                           fluidPage(
-                             fluidRow(
-                               column(6,
+                           shiny::fluidPage(
+                             shiny::fluidRow(
+                               shiny::column(6,
                                       plotly::plotlyOutput('roiPlot1', width = '100%', height = '400px')
                                ),
-                               column(6,
+                               shiny::column(6,
                                       plotly::plotlyOutput('roiPlot2', width = '100%', height = '400px')
                                )
                              ),
-                             fluidRow(
-                               uiOutput('transectX2')
+                             shiny::fluidRow(
+                               shiny::uiOutput('transectX2')
                              ),
-                             fluidRow(
-                               uiOutput('transectY2')
+                             shiny::fluidRow(
+                               shiny::uiOutput('transectY2')
                              )
                            )))
       }
