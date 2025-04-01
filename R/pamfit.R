@@ -39,7 +39,7 @@ pamfit<-function(){
   `%>%` <- magrittr::`%>%`
 
   # Reactive values to store warnings
-  warnings_store <- reactiveVal(character())
+  warnings_store <- shiny::reactiveVal(character())
 
   # Function to globally suppress and store warnings
   suppress_all_warnings <- function(expr) {
@@ -59,7 +59,7 @@ pamfit<-function(){
 
   #BrunoReview
   #BJ:temporary until I find the missing raster function
-  library(raster)
+  #library(raster)
 
   #Increase uplaod file size to 30MB
   options(shiny.maxRequestSize = 30*1024^2)
@@ -100,8 +100,8 @@ pamfit<-function(){
 
   #Two functions to create circular polygons
   create.spPolygon <- function(x){
-    p = SpatialPolygons(list(Polygons(list(Polygon(x)),1)))
-    projection(p) <- poly.proj
+    p = sp::SpatialPolygons(list(sp::Polygons(list(sp::Polygon(x)),1)))
+    raster::projection(p) <- poly.proj
     p
   }
 
@@ -229,7 +229,7 @@ pamfit<-function(){
         #Tab 2 - select region of interest for subsequent modelling, export ROI, import ROI and confirm
         shinydashboard::tabItem(tabName = 'selectROI',
                                 shiny::fluidPage(
-                                  tags$style(type = "text/css", "#leafmap {height: calc(80vh - 80px) !important;}"),
+                                  shiny::tags$style(type = "text/css", "#leafmap {height: calc(80vh - 80px) !important;}"),
                                   shiny::titlePanel(title = 'Select ROI for analysis'),
                                   shiny::br(),
                                   shiny::fluidRow(
@@ -243,9 +243,9 @@ pamfit<-function(){
                                   shiny::br(),
                                   shiny::fluidRow(
                                     shiny::column(4,
-                                                  div(style = "background-color:yellow; text-align:center;",
+                                                  shiny::div(style = "background-color:yellow; text-align:center;",
                                                       shiny::actionButton('exportROI', 'Export ROI?', width = '100%'))),
-                                    shiny::column(4, div(style = "background-color:lightgray; text-align:center;",
+                                    shiny::column(4, shiny::div(style = "background-color:lightgray; text-align:center;",
                                                          shinyFiles::shinyFilesButton('importROI', "Import ROI" ,
                                                                                       title = 'Import ROI?',
                                                                                       width = '200%', multiple = FALSE,
@@ -316,7 +316,7 @@ pamfit<-function(){
 
                                                        shiny::tabPanel('Model Outputs',
                                                                        shiny::fluidPage(
-                                                                         tags$style(type = "text/css", "#modelOutputs {height: calc(60vh - 80px) !important;}"),
+                                                                         shiny::tags$style(type = "text/css", "#modelOutputs {height: calc(60vh - 80px) !important;}"),
                                                                          shiny::fluidRow(
                                                                            shiny::uiOutput('selectParameter', width = '100%')
                                                                          ),
@@ -324,12 +324,12 @@ pamfit<-function(){
                                                                            leaflet::leafletOutput('modelOutputs',
                                                                                                   width = '100%')),
                                                                          shiny::fluidRow(
-                                                                           column(6, shiny::uiOutput('zmin', width = '50%')),
-                                                                           column(6, shiny::uiOutput('zmax', width = '50%'))
+                                                                           shiny::column(6, shiny::uiOutput('zmin', width = '50%')),
+                                                                           shiny::column(6, shiny::uiOutput('zmax', width = '50%'))
                                                                          ),
                                                                          shiny::fluidRow(
-                                                                           column(5, shiny::p("Click on pixels to see their values:")),
-                                                                           column(2, shiny::htmlOutput('current_val'))
+                                                                           shiny::column(5, shiny::p("Click on pixels to see their values:")),
+                                                                           shiny::column(2, shiny::htmlOutput('current_val'))
                                                                          ),
                                                                          shiny::fluidRow(
                                                                            shiny::p("Select ROI or transect for data analysis. A new tab will open with the result.")
@@ -344,7 +344,7 @@ pamfit<-function(){
                                                                        ),
                                                                        shiny::br(),
                                                                        shiny::fluidRow(
-                                                                         column(6,
+                                                                         shiny::column(6,
                                                                                 shiny::uiOutput('saveSettings'))
                                                                        )))))),
 
@@ -399,8 +399,8 @@ pamfit<-function(){
       my.back <- shiny::reactiveValues(data = NULL)
 
       #observe for quit button press
-      observeEvent(input$quit, {
-        stopApp()
+      shiny::observeEvent(input$quit, {
+        shiny::stopApp()
       })
 
       ################################
@@ -409,8 +409,8 @@ pamfit<-function(){
 
       #open dialog box to load geoTIFF
       shiny::observeEvent(input$loadDat, {
-        showModal(
-          modalDialog(title = 'Upload Pre-Processed GeoTIF', size='m',
+        shiny::showModal(
+          shiny::modalDialog(title = 'Upload Pre-Processed GeoTIF', size='m',
                       shiny::fileInput("uploadGEOTIF", "Select File",
                                        multiple = F, accept = c("tif", "tiff")))
         )
@@ -536,9 +536,9 @@ pamfit<-function(){
       ##Render Menu1
       output$menu1 <- shinydashboard::renderMenu({
         if(!is.null(app.data$step_1)){
-          my.icon <- icon('check-square', lib = 'font-awesome', class = 'bruno')
+          my.icon <- shiny::icon('check-square', lib = 'font-awesome', class = 'bruno')
         } else {
-          my.icon <- icon('check-square', lib = 'font-awesome', class = 'bruno2')
+          my.icon <- shiny::icon('check-square', lib = 'font-awesome', class = 'bruno2')
         }
         shinydashboard::menuItem("1. Upload Image", tabName = "uploadImage",  icon = my.icon
 
@@ -548,9 +548,9 @@ pamfit<-function(){
       ##Render Menu2
       output$menu2 <- shinydashboard::renderMenu({
         if(!is.null(app.data$step_2)){
-          my.icon <- icon('check-square', lib = 'font-awesome', class = 'bruno')
+          my.icon <- shiny::icon('check-square', lib = 'font-awesome', class = 'bruno')
         } else {
-          my.icon <- icon('check-square', lib = 'font-awesome', class = 'bruno2')
+          my.icon <- shiny::icon('check-square', lib = 'font-awesome', class = 'bruno2')
         }
         shinydashboard::menuItem("2. Select ROI", tabName = "selectROI", icon = my.icon)
       })
@@ -558,9 +558,9 @@ pamfit<-function(){
       ##Render Menu3
       output$menu3 <- shinydashboard::renderMenu({
         if(!is.null(app.data$step_3)){
-          my.icon <- icon('check-square', lib = 'font-awesome', class = 'bruno')
+          my.icon <- shiny::icon('check-square', lib = 'font-awesome', class = 'bruno')
         } else {
-          my.icon <- icon('check-square', lib = 'font-awesome', class = 'bruno2')
+          my.icon <- shiny::icon('check-square', lib = 'font-awesome', class = 'bruno2')
         }
         shinydashboard::menuItem("3. Select Fit Parameters", tabName = "selectFitParameters", icon = my.icon)
       })
@@ -568,9 +568,9 @@ pamfit<-function(){
       ##Render Menu4
       output$menu4 <- shinydashboard::renderMenu({
         if(!is.null(app.data$step_3)){
-          my.icon <- icon('check-square', lib = 'font-awesome', class = 'bruno')
+          my.icon <- shiny::icon('check-square', lib = 'font-awesome', class = 'bruno')
         } else {
-          my.icon <- icon('check-square', lib = 'font-awesome', class = 'bruno2')
+          my.icon <- shiny::icon('check-square', lib = 'font-awesome', class = 'bruno2')
         }
         shinydashboard::menuItem("4. View & Export Data", tabName = "summaryStatistics", icon = my.icon)
       })
@@ -626,11 +626,11 @@ pamfit<-function(){
       #observe file Light, import and add to app.data
       shiny::observeEvent(input$fileLight, {
         if (is.null(app.data$my.brick) == TRUE){
-          showModal(modalDialog(
+          shiny::showModal(shiny::modalDialog(
             title = "Missing Tif file",
             "Please select a Tif file before loading light levels",
             easyClose = FALSE,
-            footer = modalButton("Dismiss")
+            footer = shiny::modalButton("Dismiss")
           ))
         }else{
           #input light file
@@ -642,20 +642,20 @@ pamfit<-function(){
 
           #check format of light file
           if (is.na(light[1]) == TRUE){
-            showModal(modalDialog(
+            shiny::showModal(shiny::modalDialog(
               title = "Error in the light file",
               "The light file is not formatted correctly",
               easyClose = FALSE,
-              footer = modalButton("Dismiss")))
+              footer = shiny::modalButton("Dismiss")))
           }
 
           #check number of light levels matches length of tiff light curve
           if (length(light) !=1 & length(light) != (raster::nlayers(app.data$my.brick) - 4) / 2){
-            showModal(modalDialog(
+            shiny::showModal(shiny::modalDialog(
               title = "Error in the light file",
               "Wrong number of light levels in the input file",
               easyClose = FALSE,
-              footer = modalButton("Dismiss")
+              footer = shiny::modalButton("Dismiss")
             ))
           }
 
@@ -716,11 +716,11 @@ pamfit<-function(){
 
         #check if there is anything missing before moving on
         if(is.null(app.data$my.brick) == TRUE){
-          showModal(modalDialog(
+          shiny::showModal(shiny::modalDialog(
             title = "Input error",
             "Please select a file and set light levels",
             easyClose = FALSE,
-            footer = modalButton("Dismiss")
+            footer = shiny::modalButton("Dismiss")
           ))
         } else {
           #read in the FINAL par labels from the data table
@@ -730,11 +730,11 @@ pamfit<-function(){
           )
 
           if(any(is.na(my.par))){
-            showModal(modalDialog(
+            shiny::showModal(shiny::modalDialog(
               title = "Input error",
               "Please make sure all light levels are provided (no NAs allowed)",
               easyClose = FALSE,
-              footer = modalButton("Dismiss")
+              footer = shiny::modalButton("Dismiss")
             ))
           } else {
             #populate light levels into app.data
@@ -789,7 +789,7 @@ pamfit<-function(){
       ####################### Shiny 2 code ##################################
 
       #render radioButtons
-      output$roiActBut <- renderUI({
+      output$roiActBut <- shiny::renderUI({
         req(app.data$step_1)
         if(app.data$abs == "yes"){
           my.choices <- c("NIR", "Red", "Abs", "Fo", "Fm")
@@ -927,17 +927,17 @@ pamfit<-function(){
       #Exporting ROIs functionality
 
       #observe export ROI and render modalDialog box
-      observeEvent(input$exportROI,{
+      shiny::observeEvent(input$exportROI,{
         req(app.data$poly.draw)
-        showModal(
-          modalDialog(title = 'Export ROI', size='m',
-                      downloadButton("downloadROI", "Save ROI",
+        shiny::showModal(
+          shiny::modalDialog(title = 'Export ROI', size='m',
+                      shiny::downloadButton("downloadROI", "Save ROI",
                                      easyClose = TRUE)
           )
         )
       })
       #establish download handler
-      output$downloadROI <- downloadHandler(
+      output$downloadROI <- shiny::downloadHandler(
         filename = function(){paste("roi", "txt", sep=".")},
         content = function(file) {
           write.table(app.data$poly.mat,file = file)
@@ -952,7 +952,7 @@ pamfit<-function(){
       shinyFiles::shinyFileChoose(input, 'importROI', roots=roots, filetypes=c('', 'txt'))
 
       #observe importROI
-      observeEvent(input$importROI, {
+      shiny::observeEvent(input$importROI, {
         req(app.data$my.brick)
         req(input$importROI)
         req(as.character(shinyFiles::parseFilePaths(roots, input$importROI)[4] != "character(0)"))
@@ -1034,11 +1034,11 @@ pamfit<-function(){
 
         #check that ROI exists
         if (is.null(app.data$my.crop) == TRUE){
-          showModal(modalDialog(
+          shiny::showModal(shiny::modalDialog(
             title = "Error ROI",
             "You need to select a ROI for analysis",
             easyClose = FALSE,
-            footer = modalButton("Dismiss")
+            footer = shiny::modalButton("Dismiss")
           ))
         }else{
 
@@ -1374,7 +1374,7 @@ pamfit<-function(){
       })
 
       #determine which model parameters to print to screen
-      no.param <- reactive({
+      no.param <- shiny::reactive({
         my.info <- c('<b>Current model parameters</b>',
                      'No model selected')
         shiny::HTML(paste0(my.info, sep='',collapse='<br/>'))
@@ -1464,11 +1464,11 @@ pamfit<-function(){
 
         #force the user to select a pixel and a model before attempting calculations
         if (app.data$model == 'no_pixel' | app.data$model == 'none'| is.null(app.data$etr)==TRUE| app.data$click == FALSE){
-          showModal(modalDialog(
+          shiny::showModal(shiny::modalDialog(
             title = "No model or no starting values",
             "Please select a pixel and a model",
             easyClose = FALSE,
-            footer = modalButton("Dismiss")
+            footer = shiny::modalButton("Dismiss")
           ))
         }else{
 
@@ -2047,15 +2047,15 @@ pamfit<-function(){
             shiny::textInput('export_object_name', "Name for R object:", 'pamfit_results'),
             "Data will be availale as the above named object in the R Global Environment once PAMfit is closed",
             easyClose = T,
-            footer=tagList(
-              actionButton('submit', 'Submit'),
-              modalButton('cancel')
+            footer = shiny::tagList(
+              shiny::actionButton('submit', 'Submit'),
+              shiny::modalButton('cancel')
             )))
       })
 
       #export to global environment when submit is pushed
       observeEvent(input$submit, {
-        removeModal()
+        shiny::removeModal()
         if(app.data$abs == "yes"){
           my.list <- list('NIR' = app.data$nir,
                           'Red' = app.data$red,
@@ -2247,7 +2247,7 @@ pamfit<-function(){
                                          app.data$model.outputs)
             }
 
-            dat <- as.data.frame(all.stack, xy = T)
+            dat <- raster::as.data.frame(all.stack, xy = T)
             write.csv(dat, file = file, row.names = F)
           }
           if(input$parameter.space != 'All data' && input$output.types == 'CSV file(s)'){
@@ -2270,7 +2270,7 @@ pamfit<-function(){
             if(mod.param != 'F images' && mod.param != 'Fm images'){
               all.stack <- raster::raster(raster::stack(app.data$model.outputs,app.data$abs_img), layer = mod.param)
             }
-            dat <- as.data.frame(all.stack, xy = T)
+            dat <- raster::as.data.frame(all.stack, xy = T)
             write.csv(dat, file = file, row.names = F)
           }
         }
@@ -2320,7 +2320,7 @@ pamfit<-function(){
         poly.coords <- input$modelOutputs_draw_new_feature$geometry$coordinates %>% unlist
         poly.mat <- data.frame(x = poly.coords[c(TRUE, FALSE)], y = poly.coords[c(FALSE, TRUE)])
         xy <- sp::SpatialPoints(poly.mat)
-        proj4string(xy) <- poly.proj
+        sp::proj4string(xy) <- poly.proj
         #suppress spTransform warning with no consequence
         suppressWarnings(
           xy <- as.data.frame(sp::spTransform(xy, leafletProj))
@@ -2345,7 +2345,7 @@ pamfit<-function(){
           final.poly <- Orcs::coords2Polygons(as.matrix(xy), ID='chris')
           all.stack <- raster::stack(app.data$f_img, app.data$fm_img, app.data$yield, app.data$etr, app.data$model.outputs)
           my.roi <- all.stack %>% raster::crop(raster::extent(final.poly)) %>% raster::mask(final.poly)
-          my.vals <- as.data.frame(my.roi, xy = T)
+          my.vals <- raster::as.data.frame(my.roi, xy = T)
           app.data$analysis.vals <- my.vals
         }
 
@@ -2354,7 +2354,7 @@ pamfit<-function(){
           final.poly <- app.data$circle.poly
           all.stack <- raster::stack(app.data$f_img, app.data$fm_img, app.data$yield, app.data$etr, app.data$model.outputs)
           my.roi <- all.stack %>% raster::crop(raster::extent(final.poly)) %>% raster::mask(final.poly)
-          my.vals <- as.data.frame(my.roi, xy = T)
+          my.vals <- raster::as.data.frame(my.roi, xy = T)
           app.data$analysis.vals <- my.vals
         }
       })
@@ -2586,15 +2586,15 @@ pamfit<-function(){
             shiny::textInput('export_roi_name', "Name for R object:", 'pamfit_roi'),
             "Data will be availale as the above named object in the R Global Environment once PAMfit is closed",
             easyClose = T,
-            footer=tagList(
-              actionButton('submit2', 'Submit'),
-              modalButton('cancel')
+            footer = shiny::tagList(
+              shiny::actionButton('submit2', 'Submit'),
+              shiny::modalButton('cancel')
             )))
       })
 
       #export to global environment when submit is pushed
-      observeEvent(input$submit2, {
-        removeModal()
+      shiny::observeEvent(input$submit2, {
+        shiny::removeModal()
         assign(x = input$export_roi_name, app.data$analysis.vals, envir = .GlobalEnv)
       })
 
@@ -2625,15 +2625,15 @@ pamfit<-function(){
             shiny::textInput('export_trans_name', "Name for R object:", 'pamfit_transect'),
             "Data will be availale as the above named object in the R Global Environment once PAMfit is closed",
             easyClose = T,
-            footer=tagList(
-              actionButton('submit3', 'Submit'),
-              modalButton('cancel')
+            footer = shiny::tagList(
+              shiny::actionButton('submit3', 'Submit'),
+              shiny::modalButton('cancel')
             )))
       })
 
       #export transect data to global environment when submit is pushed
-      observeEvent(input$submit3, {
-        removeModal()
+      shiny::observeEvent(input$submit3, {
+        shiny::removeModal()
         t.dat <- app.data$analysis.vals
         names(t.dat)[1] <- 'pixel_number'
         t.dat$pixel_number <- 1:nrow(t.dat)
