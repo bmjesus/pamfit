@@ -30,7 +30,8 @@ Imports:
     shinyWidgets,
     terra (>= 1.7-55),
     geosphere,
-    utils
+    utils,
+    snow
 License: GPL-3
 # Note: Vignettes and data are released under CC-BY 4.0. See LICENSE.note.
 Encoding: UTF-8
