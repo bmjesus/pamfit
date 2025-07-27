@@ -2,15 +2,15 @@
 % Please edit documentation in R/pamfit.R
 \name{pamfit}
 \alias{pamfit}
-\title{Shiny App to calculate images of RLC parameters}
+\title{Shiny App to calculate images of photosynthesis-irradiance curve parameters}
 \usage{
 pamfit()
 }
 \value{
-A graphical interface for importing RLC images, running pixel-wise model fits, and exporting results either to the workspace or as external files (Tif and CSV format).
+A graphical interface for importing PI curve images, running pixel-wise model fits, and exporting results either to the workspace or as external files (Tif and CSV format).
 }
 \description{
-A Shiny app for processing and visualizing rapid light curve (RLC) datasets using Imaging-PAM data. The app calculates photosynthesis-related parameters and exports spatially resolved results.
+A Shiny app for processing and visualizing photosynthesis-irradiance (PI) curve datasets using Imaging-PAM data. The app calculates photosynthesis-related parameters and exports spatially resolved results.
 }
 \examples{
 if (interactive()) {
