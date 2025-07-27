@@ -1,6 +1,6 @@
-#' @title Shiny App to calculate images of RLC parameters
-#' @description  A Shiny app for processing and visualizing rapid light curve (RLC) datasets using Imaging-PAM data. The app calculates photosynthesis-related parameters and exports spatially resolved results.
-#' @return A graphical interface for importing RLC images, running pixel-wise model fits, and exporting results either to the workspace or as external files (Tif and CSV format).
+#' @title Shiny App to calculate images of photosynthesis-irradiance curve parameters
+#' @description  A Shiny app for processing and visualizing photosynthesis-irradiance (PI) curve datasets using Imaging-PAM data. The app calculates photosynthesis-related parameters and exports spatially resolved results.
+#' @return A graphical interface for importing PI curve images, running pixel-wise model fits, and exporting results either to the workspace or as external files (Tif and CSV format).
 #' @keywords external
 #' @importFrom magrittr %>%
 #' @import sp
@@ -57,9 +57,6 @@ pamfit<-function(){
   #completely disable console warnings
   options(warn = -1)
 
-  #BrunoReview
-  #BJ:temporary until I find the missing raster function
-  #library(raster)
 
   #Increase uplaod file size to 30MB
   options(shiny.maxRequestSize = 30*1024^2)
@@ -244,12 +241,12 @@ pamfit<-function(){
                                   shiny::fluidRow(
                                     shiny::column(4,
                                                   shiny::div(style = "background-color:yellow; text-align:center;",
-                                                      shiny::actionButton('exportROI', 'Export ROI?', width = '100%'))),
+                                                             shiny::actionButton('exportROI', 'Export ROI', width = '100%'))),
                                     shiny::column(4, shiny::div(style = "background-color:lightgray; text-align:center;",
-                                                         shinyFiles::shinyFilesButton('importROI', "Import ROI" ,
-                                                                                      title = 'Import ROI?',
-                                                                                      width = '200%', multiple = FALSE,
-                                                                                      buttonType = "default", class = NULL))),
+                                                                shinyFiles::shinyFilesButton('importROI', "Import ROI" ,
+                                                                                             title = 'Import ROI?',
+                                                                                             width = '200%', multiple = FALSE,
+                                                                                             buttonType = "default", class = NULL))),
                                     shiny::column(4,
                                                   shiny::actionButton('confirm2', 'Confirm ROI', width = '100%'))
                                   )
@@ -345,7 +342,7 @@ pamfit<-function(){
                                                                        shiny::br(),
                                                                        shiny::fluidRow(
                                                                          shiny::column(6,
-                                                                                shiny::uiOutput('saveSettings'))
+                                                                                       shiny::uiOutput('saveSettings'))
                                                                        )))))),
 
         #Tab 5 - data analysis tab,
@@ -411,8 +408,8 @@ pamfit<-function(){
       shiny::observeEvent(input$loadDat, {
         shiny::showModal(
           shiny::modalDialog(title = 'Upload Pre-Processed GeoTIF', size='m',
-                      shiny::fileInput("uploadGEOTIF", "Select File",
-                                       multiple = F, accept = c("tif", "tiff")))
+                             shiny::fileInput("uploadGEOTIF", "Select File",
+                                              multiple = F, accept = c("tif", "tiff")))
         )
       })
 
@@ -589,16 +586,28 @@ pamfit<-function(){
         app.data$file.name <- input$fileIn$name
 
         #load the data
-        #suppress unknown tag warning from imaging PAM tiff
+        #suppress unknown tag warning from imaging PAM tiff and lack of extent warning
         suppressWarnings(
-          dat <- tiff::readTIFF(my.file$datapath, all = T)
+       dat <-  terra::rast(my.file$datapath)
         )
+
         app.data$data <- dat
+
+        #converting into a brick
+        suppressWarnings(
+        my.brick <- raster::brick(dat)
+        )
+
+        suppressWarnings(
+        #flipping the image back to the original orientation
+        my.brick <- raster::flip(my.brick, direction = "y")
+        )
+
         #load data as raster stack
-        my.brick <- raster::stack()
-        for(i in 1:length(dat)){
-          my.brick <- raster::stack(my.brick, raster::raster(as.matrix(dat[[i]])))
-        }
+        #my.brick <- raster::stack()
+        #for(i in 1:length(dat)){
+        #  my.brick <- raster::stack(my.brick, raster::raster(as.matrix(dat[[i]])))
+        #}
 
         #establish number of light levels based on layer number
         app.data$no.light.steps <- (raster::nlayers(my.brick) - 4) / 2
@@ -931,8 +940,8 @@ pamfit<-function(){
         req(app.data$poly.draw)
         shiny::showModal(
           shiny::modalDialog(title = 'Export ROI', size='m',
-                      shiny::downloadButton("downloadROI", "Save ROI",
-                                     easyClose = TRUE)
+                             shiny::downloadButton("downloadROI", "Save ROI",
+                                                   easyClose = TRUE)
           )
         )
       })
@@ -1079,7 +1088,7 @@ pamfit<-function(){
           }
 
           #define simple ETR function
-          #BrunoReview
+
           etr.fun.1 <- function(x) { x * light * 0.5 }
 
           if(abs == "no"){
@@ -1600,7 +1609,7 @@ pamfit<-function(){
                                   if(no.cores == 1){
                                     app.data$model.outputs <-  raster::calc(clipped.etr, jassby.platt.mod, progress='text')
                                   } else {
-                                    raster::beginCluster((no.cores-1))
+                                    raster::beginCluster((no.cores))
                                     app.data$model.outputs <- raster::clusterR(clipped.etr, raster::calc, args=list(fun=jassby.platt.mod))
                                     raster::endCluster()
                                   }
@@ -1619,7 +1628,7 @@ pamfit<-function(){
                                   if(no.cores == 1){
                                     app.data$model.outputs <-  raster::calc(clipped.etr, platt.mod, progress='text')
                                   } else {
-                                    raster::beginCluster((no.cores-1))
+                                    raster::beginCluster((no.cores))
                                     app.data$model.outputs <- raster::clusterR(clipped.etr, raster::calc, args=list(fun=platt.mod))
                                     raster::endCluster()
                                   }
@@ -1638,7 +1647,7 @@ pamfit<-function(){
                                   if(no.cores == 1){
                                     app.data$model.outputs <-  raster::calc(clipped.etr, ep.mod, progress='text')
                                   } else {
-                                    raster::beginCluster((no.cores-1))
+                                    raster::beginCluster((no.cores))
                                     app.data$model.outputs <- raster::clusterR(clipped.etr, raster::calc, args=list(fun=ep.mod))
                                     raster::endCluster()
                                   }

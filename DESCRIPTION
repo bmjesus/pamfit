@@ -9,7 +9,7 @@ Description: A set of functions to import RLC data from an Imaging PAM fluoromet
     Germany) and produce a set of images of the corresponding RLC parameters (i.e.
     alpha, Ek, ETRmax and beta). The user can fit the model described in Jassby &
     Platt (1976), the model by Platt et al. (1980) or the model by Eilers & Peeters (1988).
-Depends: R (>= 4.1.0)
+Depends: R (>= 4.2.0)
 Imports: 
     shiny, 
     tiff,
