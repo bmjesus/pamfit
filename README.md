@@ -1,12 +1,6 @@
 
 # User guide for pamfit: an R package for the study of photosynthesis-light curve parameters spatial heterogeneity.
 
-<style>
-.figure p.caption {
-  margin-top: 12px; /* Space above caption */
-}
-</style>
-
 This guide aims to assist users in extracting light-curve image
 parameters —such as $\alpha$, E<sub>k</sub>, and rETR<sub>max</sub>—
 from Imaging-PAM data using the `pamfit` R package. It serves as
