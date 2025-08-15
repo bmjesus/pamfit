@@ -1,32 +1,12 @@
----
-title: "User guide for pamfit: an R package for the study of photosynthesis-light curve parameters spatial heterogeneity. "
-date: "2025-07-25"
-output:
-  bookdown::html_document2:
-    toc: true
-    toc_float: true
-    toc_depth: 4
-  bookdown::pdf_document2:
-    toc: true
-    toc_depth: 3
-header-includes:
-  - \usepackage{float}
----
-
-<style>
-.figure p.caption {
-  margin-top: 12px; /* Space above caption */
-}
-</style>
-
----
-<!-- rmarkdown::render("pamfit_manual.Rmd", output_format = "pdf_document") -->
-
----
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 
+# User guide for pamfit: an R package for the study of photosynthesis-light curve parameters spatial heterogeneity. 
 
 
+date: `r Sys.Date()`
 
 
 This guide aims to assist users in extracting light-curve image parameters —such as $\alpha$, E<sub>k</sub>, and rETR<sub>max</sub>— from Imaging-PAM data using the `pamfit` R package. It serves as supplementary material to the article *“PAMFIT: a new R package for studying the spatial heterogeneity of photosynthesis–light curve parameters”* by Jesus, B., Cartaxana, P., and Williamson, C. (submitted to Limnology and Oceanography: Methods).
@@ -41,16 +21,18 @@ The package is hosted on GitHub and can be installed using the `install_github()
 
 If `devtools` is not already installed, it can be added using the `install.packages()` function:
 
+```{r eval=FALSE}
 
-``` r
 install.packages('devtools')
+
 ```
 
 Once `devtools` is installed, you can install `pamfit` with the following command:
 
+```{r eval=FALSE}
 
-``` r
 devtools::install_github('bmjesus/pamfit') 
+
 ```
 
 This command will download `pamfit` and install any required R package dependencies. Depending on your current R setup, this process may take some time. Some dependencies (e.g. `shiny`) have numerous additional packages of their own.
@@ -60,16 +42,18 @@ This command will download `pamfit` and install any required R package dependenc
 
 To start using`pamfit`, you first need to load it using:
 
+```{r eval=FALSE}
 
-``` r
 library('pamfit') 
+
 ```
 
 Then, run the `pamfit()` function in the R console to launch the Shiny app.
 
+```{r eval=FALSE}
 
-``` r
 pamfit()
+
 ```
 
 
@@ -79,15 +63,16 @@ pamfit()
 
 To get started, we recommend using one of the sample images provided to test whether all functions are working correctly. Specifically, it’s a good idea to begin with the smallest image (`slug_small.tif`, 676 pixels) along with its corresponding light levels file (`light_slug_small.txt)`. Both files can be downloaded from the pamfit GitHub repository (https://github.com/bmjesus/pamfit/tree/master/data).
 
-The first step is to upload the `.tif` image file, followed by uploading the PAR levels file. Next, you can choose the level of smoothing to apply to the image, and whether to include absorptivity values in the ETR calculations. These last two steps are optional.
+The first step in the workflow is to upload the `.tif` image file, followed by the input of the PAR (photosynthetically active radiation) levels, either manually or via a text file. The user may then optionally select an image smoothing level to reduce pixel noise, and choose whether to incorporate absorptivity values into the electron transport rate (ETR) calculations. It is important to note that if absorptivity-based ETR calculation is selected but the uploaded image does not contain valid absorptivity data, all ETR images will be returned as `NA`, and model fitting will not be possible. For guidance on generating absorptivity images and exporting datasets in TIFF format, refer to the Imaging PAM instruction manual.
 
 After uploading, you should see something similar to the example below (Figure \@ref(fig:fig01)):
 
 
-<div class="figure" style="text-align: center">
-<img src="fig_01.png" alt="First step: upload the data" width="60%" />
-<p class="caption">First step: upload the data</p>
-</div>
+```{r fig01, echo=FALSE, out.width="60%", fig.align="center", fig.cap="First step: upload the data"}
+
+knitr::include_graphics("figures/fig_01.png")
+
+```
 
 Click `Confirm` to proceed to the next step.
 
@@ -99,10 +84,11 @@ In this step, the user can define regions of interest (ROIs) on the image using 
 
 If you're using `pamfit` for the first time, you'll need to draw a new ROI. In the example below (Figure \@ref(fig:fig02)), we selected the entire image as the ROI using the rectangle tool.
 
-<div class="figure" style="text-align: center">
-<img src="fig_02.png" alt="Second step: select ROI" width="60%" />
-<p class="caption">Second step: select ROI</p>
-</div>
+```{r fig02, echo=FALSE, out.width="60%", fig.align="center", fig.cap="Second step: select ROI"}
+
+knitr::include_graphics("fig_02.png")
+
+```
 
 
 Once you’ve finished selecting the ROI, click `Confirm ROI` to move to the next step.
@@ -116,10 +102,11 @@ In this step, the user needs to click on a pixel and select a fitting model (Fig
 This is also where the user can specify how many CPU cores to use for the fitting process. For small images—such as the example provided—it is best to leave the number of cores set to 1. For larger images (e.g., more than 15,000 pixels), increasing the number of cores can significantly reduce processing time (see Jesus et al. for details). To assist with this, `pamfit` automatically detects the number of available cores. However, **do not** use all available cores, as this may cause your system to crash.
 
 
-<div class="figure" style="text-align: center">
-<img src="fig_03.png" alt="Third step: select the model and the starting values" width="60%" />
-<p class="caption">Third step: select the model and the starting values</p>
-</div>
+```{r fig03, echo=FALSE, out.width="60%", fig.align="center", fig.cap="Third step: select the model and the starting values"}
+
+knitr::include_graphics("fig_03.png")
+
+```
 
 
 The fitting process begins when the user clicks the `Confirm & Run Model` button. Once fitting is complete, the user will be directed to the fourth and final step.
@@ -142,17 +129,18 @@ By default, the app displays the **Raw Data** tab. In the left-hand menu, the us
    - The `.tif` format can be opened in imaging software (e.g., ImageJ, QGIS), and includes all data layers: both the raw input and the fitted parameter outputs.  
      The structure of this `.tif` image mirrors that of the R object (*see Section 3*).
 
-3. **Load Pre-processed Image** – imports a previously saved `.tif` or object for further analysis.
+3. **Load Pre-processed Image** – imports a previously saved `.tif` for further analysis.
 
 4. **Quit `pamfit`** – exits the app.
 
 **Note:** All objects exported to the R workspace will only be available **after** quitting `pamfit`.
 
 
-<div class="figure" style="text-align: center">
-<img src="fig_04.png" alt="Fourth step: saving data options" width="60%" />
-<p class="caption">Fourth step: saving data options</p>
-</div>
+```{r fig04, echo=FALSE, out.width="60%", fig.align="center", fig.cap="Fourth step: saving data options"}
+
+knitr::include_graphics("fig_04.png")
+
+```
 
 
 When the user selects the `Model Outputs` tab, they can draw either a region of interest (ROI) or a transect on the resulting images using the icons available for that purpose. Once this is done, a new tab will appear --named either `ROI` or `Transect` depending on the user’s choice. Upon entering the new tab, the left-hand menu will expand to offer options for `exporting` (to the R workspace) or `saving` the data associated with the selected ROI or transect.
@@ -164,40 +152,44 @@ The figures below illustrate an example of a transect (Figure \@ref(fig:fig05)),
 
 
 
-<div class="figure" style="text-align: center">
-<img src="fig_05.png" alt="Drawing a transect" width="60%" />
-<p class="caption">Drawing a transect</p>
-</div>
+```{r fig05, echo=FALSE, out.width="60%", fig.align="center", fig.cap="Drawing a transect"}
+
+knitr::include_graphics("fig_05.png")
+
+```
 
 
 
-<div class="figure" style="text-align: center">
-<img src="fig_06.png" alt="Plotting the transect results" width="60%" />
-<p class="caption">Plotting the transect results</p>
-</div>
+```{r fig06, echo=FALSE, out.width="60%", fig.align="center", fig.cap="Plotting the transect results"}
+
+knitr::include_graphics("fig_06.png")
+
+```
 
 
 When the user selects an ROI (Figure \@ref(fig:fig07)), the `ROI` tab provides the option to plot two images against each other and displays a boxplot analysis for each variable (Figure \@ref(fig:fig08)).
 
 
-<div class="figure" style="text-align: center">
-<img src="fig_07.png" alt="Drawing a ROI" width="60%" />
-<p class="caption">Drawing a ROI</p>
-</div>
+```{r fig07, echo=FALSE, out.width="60%", fig.align="center", fig.cap="Drawing a ROI"}
+
+knitr::include_graphics("fig_07.png")
+
+```
 
 
-<div class="figure" style="text-align: center">
-<img src="fig_08.png" alt="Boxplot and XY plot of ROI" width="50%" />
-<p class="caption">Boxplot and XY plot of ROI</p>
-</div>
+```{r fig08, echo=FALSE, out.width="50%", fig.align="center", fig.cap="Boxplot and XY plot of ROI"}
+
+knitr::include_graphics("fig_08.png")
+
+```
 
 
 # Technical details
 
 
-## Exported objects
+## Exported R objects
 
-The objects exported to the R workspace are of two types. The first type are the results of the model fit and the second type are are the result of the ROI/Transect analysis.
+The objects exported to the R workspace are of two types. The first type are the results of the model fit and the second type are the result of the ROI/Transect analysis. The latter are exported in a simple dataframe format and the former in more complex list format described below.
 
 
 When exporting the result to the workspace the user has the possibility of changing the default name `pamfit_results` and once `pamfit` is closed they will see the object appear on the workspace. The exported object is a list with 5 elements, all items are of the type `RasterBrick`. The 1st item contains all the minimum fluorescence images (one per light level), the 2nd item contains the maximum fluorescence images (one per light level), the 3rd the PSII quantum efficiency images (one per light level), the 4th the ETR images (one per light level) and the 5th contains the model parameters, their associated standard error and RMSE images. 
@@ -226,7 +218,7 @@ Using the function `names()` will return the name of each image in the respectiv
 [1] "alpha"     "etrmax"    "eopt"      "Ek"        "se_alpha"  "se_etrmax" "se_eopt"   "RMSE"  
 ```
 
-Plotting any image can be done by accessing the image using the conventional R object structure (`$`). This is the example on how the plot the `alpha` image (Figure \@ref(fig:alpha)).
+Plotting any image can be done by accessing the image using the conventional R object structure (`$`). This is the example of how the plot the `alpha` image (Figure \@ref(fig:alpha)).
 
 ```
 terra::plot(pamfit_results$model_outputs$alpha)
@@ -234,22 +226,24 @@ terra::plot(pamfit_results$model_outputs$alpha)
 
 
 
-<div class="figure" style="text-align: center">
-<img src="alpha.png" alt="Alpha image" width="50%" />
-<p class="caption">Alpha image</p>
-</div>
+```{r alpha, echo=FALSE, out.width="45%", fig.align="center", fig.cap="Alpha image"}
+
+knitr::include_graphics("alpha.png")
+
+```
 
 
-Accessing the pixel values for numerical analysis can be done using the `terra::values()` function. Here's an example on how to plot the pixel values distribution (Figure \@ref(fig:alphahist)):
+Accessing the pixel values for numerical analysis can be done using the `terra::values()` function. Here's an example of how to plot the pixel values distribution (Figure \@ref(fig:alphahist)):
 
 ```
 hist(terra::values(pamfit_results$model_outputs$alpha))
 ```
 
-<div class="figure" style="text-align: center">
-<img src="alpha_hist.png" alt="Frequency of alpha pixel values" width="50%" />
-<p class="caption">Frequency of alpha pixel values</p>
-</div>
+```{r alphahist, echo=FALSE, out.width="45%", fig.align="center", fig.cap="Frequency of alpha pixel values" , fig.pos='H'}
+
+knitr::include_graphics("alpha_hist.png")
+
+```
 
 
 
@@ -264,20 +258,32 @@ The simplest one is the model described in *Jassby, A.D., Platt, T., (1976) Math
 
 
 
-<img src="mod_Jassby.png" width="80%" style="display: block; margin: auto;" />
+```{r jassby, echo=FALSE, out.width="80%", fig.align="center", fig.cap="", fig.pos='h'}
+
+knitr::include_graphics("mod_Jassby.png")
+
+```
 
 
 The second model is the one described in *Platt, T., Gallegos, C.L., Harrison, W.G. (1980) Photoinhibition of photosynthesis in natural assemblages of marine phytoplankton. J. Mar. Res. 38, 687-701.*
 
 
 
-<img src="mod_Platt.png" width="80%" style="display: block; margin: auto;" />
+```{r platt, echo=FALSE, out.width="80%", fig.align="center", fig.cap="", fig.pos='h'}
+
+knitr::include_graphics("mod_Platt.png")
+
+```
 
 
 The third model is the one described in *Eilers, P.H.C., and J.C.H. Peeters. 1988. A model for the relationship between light intensity and the rate of photosynthesis in phytoplankton. Ecological Modelling, 42, 199–215.* Modeled in `pamfit` using the equation:
 
 
-<img src="mod_EP.png" width="80%" style="display: block; margin: auto;" />
+```{r ep, echo=FALSE, out.width="80%", fig.align="center", fig.cap="", fig.pos='h'}
+
+knitr::include_graphics("mod_EP.png")
+
+```
 
 
 All models are fitted using a Levenberg–Marquardt algorithm from the function `minpack.lm::nlsLM` with the bounded, nonlinear least-squares optimizer "PORT".
@@ -305,12 +311,13 @@ Absorptivity is calculated as: Abs = 1 - red / nir
 
 **Starting values and choosing the right model:** the selection of model parameter starting values plays a crucial role in the fitting process. The PORT non-linear least-squares fitting algorithm demonstrated strong robustness to high spatial variability. However, if an image contains extreme differences in RLC response patterns, the selected pixel for the initial parameter estimates may significantly influence the results. To ensure consistency, we recommend that —if possible— samples with extreme differences be analyzed separately, using distinct images rather than a single composite image. This approach helps minimize potential biases introduced by variations in starting values. Using a model that includes a photoinhibition component (i.e., Platt or EP) consistently resulted in lower global RMSE values. However, this came at the cost of increased processing time, with the Platt model requiring more than twice the time of the Jassby model. Therefore, if processing time is a limiting factor and the dataset does not exhibit signs of photoinhibition, the Jassby model can be used as a faster alternative. Otherwise, the Platt and EP models generally provided better results.
 
-**Slowness in too much parallelization:** parallel processing is highly beneficial for large images, significantly reducing processing time. However, the greatest performance gains are observed between two and four CPU cores. Beyond this, increasing the number of cores resulted in only minor improvements or, in some cases, even slower processing. We recommend that users test processing speed on their own systems to determine the most efficient configuration. Memory limitations may occur when running pamfit in parallel mode, particularly on Windows systems where clusterR() launches multiple R sessions. Processing several images in a single session without closing pamfit can also increase memory usage, as RStudio retains objects until they are released to the workspace when pamfit is closed. The safest approach is to run pamfit in serial mode (one CPU core) and process one image per session. However, in most systems we tested, using two cores was stable and halved processing time.
+**Slow speeds with high parallelization:** parallel processing is highly beneficial for large images, significantly reducing processing time. However, the greatest performance gains are observed between two and four CPU cores. Beyond this, increasing the number of cores resulted in only minor improvements or, in some cases, even slower processing. We recommend that users test processing speed on their own systems to determine the most efficient configuration. Memory limitations may occur when running pamfit in parallel mode, particularly on Windows systems where clusterR() launches multiple R sessions. Processing several images in a single session without closing pamfit can also increase memory usage, as RStudio retains objects until they are released to the workspace when pamfit is closed. The safest approach is to run pamfit in serial mode (one CPU core) and process one image per session. However, in most systems we tested, using two cores was stable and halved processing time.
 
 
 **Rendering issues due to outliers:** fitting the P–I curve models may occasionally produce infinite or extreme values. Infinite values are handled internally by pamfit and excluded from calculations and image rendering. However, extreme outliers are retained and can distort the output by stretching the color scale, often resulting in mostly dark images with isolated bright pixels. This is a visual artefact of the outlier presence and can be manually compensated by the user by inputing the minimum and maximum values in the colour range input boxes. Finding the pixel values can be easily done by clicking on the image with the mouse.
 
 
+**Opening processed TIFF files:** this functionality relies on the `terra::metags` function, which generates the metadata associated with each data layer. In the current `pamfit` version, the `metags` function used to open processed files must be the same version that was used to generate them.
 
 
 
