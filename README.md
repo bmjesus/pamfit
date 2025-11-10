@@ -103,7 +103,7 @@ After uploading, you should see something similar to the example below
 
 <div class="figure" style="text-align: center">
 
-<img src="fig_01.png" alt="First step: upload the data" width="60%" />
+<img src="./figures/fig_01.png" alt="First step: upload the data" width="60%" />
 <p class="caption">
 First step: upload the data
 </p>
@@ -125,7 +125,7 @@ entire image as the ROI using the rectangle tool.
 
 <div class="figure" style="text-align: center">
 
-<img src="fig_02.png" alt="Second step: select ROI" width="60%" />
+<img src="./figures/fig_02.png" alt="Second step: select ROI" width="60%" />
 <p class="caption">
 Second step: select ROI
 </p>
@@ -164,7 +164,7 @@ your system to crash.
 
 <div class="figure" style="text-align: center">
 
-<img src="fig_03.png" alt="Third step: select the model and the starting values" width="60%" />
+<img src="./figures/fig_03.png" alt="Third step: select the model and the starting values" width="60%" />
 <p class="caption">
 Third step: select the model and the starting values
 </p>
@@ -226,7 +226,7 @@ menu, the user can:
 
 <div class="figure" style="text-align: center">
 
-<img src="fig_04.png" alt="Fourth step: saving data options" width="60%" />
+<img src="./figures/fig_04.png" alt="Fourth step: saving data options" width="60%" />
 <p class="caption">
 Fourth step: saving data options
 </p>
@@ -259,7 +259,7 @@ in or selecting the desired data range with the mouse.
 
 <div class="figure" style="text-align: center">
 
-<img src="fig_05.png" alt="Drawing a transect" width="60%" />
+<img src="./figures/fig_05.png" alt="Drawing a transect" width="60%" />
 <p class="caption">
 Drawing a transect
 </p>
@@ -268,7 +268,7 @@ Drawing a transect
 
 <div class="figure" style="text-align: center">
 
-<img src="fig_06.png" alt="Plotting the transect results" width="60%" />
+<img src="./figures/fig_06.png" alt="Plotting the transect results" width="60%" />
 <p class="caption">
 Plotting the transect results
 </p>
@@ -281,7 +281,7 @@ boxplot analysis for each variable (Figure @ref(fig:fig08)).
 
 <div class="figure" style="text-align: center">
 
-<img src="fig_07.png" alt="Drawing a ROI" width="60%" />
+<img src="./figures/fig_07.png" alt="Drawing a ROI" width="60%" />
 <p class="caption">
 Drawing a ROI
 </p>
@@ -290,7 +290,7 @@ Drawing a ROI
 
 <div class="figure" style="text-align: center">
 
-<img src="fig_08.png" alt="Boxplot and XY plot of ROI" width="50%" />
+<img src="./figures/fig_08.png" alt="Boxplot and XY plot of ROI" width="50%" />
 <p class="caption">
 Boxplot and XY plot of ROI
 </p>
@@ -346,7 +346,7 @@ plot the `alpha` image (Figure @ref(fig:alpha)).
 
 <div class="figure" style="text-align: center">
 
-<img src="alpha.png" alt="Alpha image" width="45%" />
+<img src="./figures/alpha.png" alt="Alpha image" width="45%" />
 <p class="caption">
 Alpha image
 </p>
@@ -361,7 +361,7 @@ values distribution (Figure @ref(fig:alphahist)):
 
 <div class="figure" style="text-align: center">
 
-<img src="alpha_hist.png" alt="Frequency of alpha pixel values" width="45%" />
+<img src="./figures/alpha_hist.png" alt="Frequency of alpha pixel values" width="45%" />
 <p class="caption">
 Frequency of alpha pixel values
 </p>
@@ -379,20 +379,20 @@ The simplest one is the model described in *Jassby, A.D., Platt, T.,
 photosynthesis and light for phytoplankton. Limnol. Oceanogr. 21:
 540-547.* It is modeled with the following equation:
 
-<img src="mod_Jassby.png" width="80%" style="display: block; margin: auto;" />
+<img src="./figures/mod_Jassby.png" width="80%" style="display: block; margin: auto;" />
 
 The second model is the one described in *Platt, T., Gallegos, C.L.,
 Harrison, W.G. (1980) Photoinhibition of photosynthesis in natural
 assemblages of marine phytoplankton. J. Mar. Res. 38, 687-701.*
 
-<img src="mod_Platt.png" width="80%" style="display: block; margin: auto;" />
+<img src="./figures/mod_Platt.png" width="80%" style="display: block; margin: auto;" />
 
 The third model is the one described in *Eilers, P.H.C., and J.C.H.
 Peeters. 1988. A model for the relationship between light intensity and
 the rate of photosynthesis in phytoplankton. Ecological Modelling, 42,
 199–215.* Modeled in `pamfit` using the equation:
 
-<img src="mod_EP.png" width="80%" style="display: block; margin: auto;" />
+<img src="./figures/mod_EP.png" width="80%" style="display: block; margin: auto;" />
 
 All models are fitted using a Levenberg–Marquardt algorithm from the
 function `minpack.lm::nlsLM` with the bounded, nonlinear least-squares
