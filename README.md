@@ -2,7 +2,7 @@
 # User guide for pamfit: an R package for the study of photosynthesis-light curve parameters spatial heterogeneity.
 
 This guide aims to assist users in extracting light-curve image
-parameters —such as $\alpha$, E<sub>k</sub>, and rETR<sub>max</sub>—
+parameters —such as $`\alpha`$, E<sub>k</sub>, and rETR<sub>max</sub>—
 from Imaging-PAM data using the `pamfit` R package. It serves as
 supplementary material to the article *“PAMFIT: a new R package for
 studying the spatial heterogeneity of photosynthesis–light curve
@@ -105,6 +105,7 @@ After uploading, you should see something similar to the example below
 
 <img src="./figures/fig_01.png" alt="First step: upload the data" width="60%" />
 <p class="caption">
+
 First step: upload the data
 </p>
 
@@ -127,6 +128,7 @@ entire image as the ROI using the rectangle tool.
 
 <img src="./figures/fig_02.png" alt="Second step: select ROI" width="60%" />
 <p class="caption">
+
 Second step: select ROI
 </p>
 
@@ -166,6 +168,7 @@ your system to crash.
 
 <img src="./figures/fig_03.png" alt="Third step: select the model and the starting values" width="60%" />
 <p class="caption">
+
 Third step: select the model and the starting values
 </p>
 
@@ -228,6 +231,7 @@ menu, the user can:
 
 <img src="./figures/fig_04.png" alt="Fourth step: saving data options" width="60%" />
 <p class="caption">
+
 Fourth step: saving data options
 </p>
 
@@ -261,6 +265,7 @@ in or selecting the desired data range with the mouse.
 
 <img src="./figures/fig_05.png" alt="Drawing a transect" width="60%" />
 <p class="caption">
+
 Drawing a transect
 </p>
 
@@ -270,6 +275,7 @@ Drawing a transect
 
 <img src="./figures/fig_06.png" alt="Plotting the transect results" width="60%" />
 <p class="caption">
+
 Plotting the transect results
 </p>
 
@@ -283,6 +289,7 @@ boxplot analysis for each variable (Figure @ref(fig:fig08)).
 
 <img src="./figures/fig_07.png" alt="Drawing a ROI" width="60%" />
 <p class="caption">
+
 Drawing a ROI
 </p>
 
@@ -292,6 +299,7 @@ Drawing a ROI
 
 <img src="./figures/fig_08.png" alt="Boxplot and XY plot of ROI" width="50%" />
 <p class="caption">
+
 Boxplot and XY plot of ROI
 </p>
 
@@ -348,6 +356,7 @@ plot the `alpha` image (Figure @ref(fig:alpha)).
 
 <img src="./figures/alpha.png" alt="Alpha image" width="45%" />
 <p class="caption">
+
 Alpha image
 </p>
 
@@ -363,6 +372,7 @@ values distribution (Figure @ref(fig:alphahist)):
 
 <img src="./figures/alpha_hist.png" alt="Frequency of alpha pixel values" width="45%" />
 <p class="caption">
+
 Frequency of alpha pixel values
 </p>
 
@@ -402,11 +412,11 @@ optimizer “PORT”.
 
 Without absorptivity:
 
-rETR = $\Phi$PSII x PAR x 0.5
+rETR = $`\Phi`$PSII x PAR x 0.5
 
 With absorptivity:
 
-rETR = $\Phi$PSII x PAR x 0.5 x Abs
+rETR = $`\Phi`$PSII x PAR x 0.5 x Abs
 
 Absorptivity is calculated as: Abs = 1 - red / nir
 
@@ -548,6 +558,8 @@ terra::plot(npq_levels, range = c(0, max(values(npq_levels), na.rm=TRUE)), axes=
 
 ![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
+<img src="./figures/npq_levels.png" width="80%" style="display: block; margin: auto;" />
+
 Now that each NPQ image has been calculated, we can cross-analyze them
 with other fluorescence parameter images. For example, we can compare
 the NPQ at the last light level (i.e., L11) with the alpha image
@@ -566,6 +578,8 @@ terra::plot(npq_levels$L11, range = c(0, max(values(npq_levels), na.rm=TRUE)),
 
 ![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
+<img src="./figures/npq_alpha.png" width="80%" style="display: block; margin: auto;" />
+
 A preliminary visual inspection suggests no clear relationship between
 the two parameters; however, a scatter plot provides a more quantitative
 way to explore their association.
@@ -576,6 +590,8 @@ terra::plot(corallina$alpha, npq_levels$L11)
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+<img src="./figures/npq_alpha_regression.png" width="80%" style="display: block; margin: auto;" />
 
 Despite the high dispersion, there appears to be a slight positive
 correlation between the two variables. This relationship can be formally
