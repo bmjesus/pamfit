@@ -59,8 +59,8 @@ pamfit<-function(){
   options(warn = -1)
 
 
-  #Increase uplaod file size to 30MB
-  options(shiny.maxRequestSize = 30*1024^2)
+  #Increase upload file size to 30MB
+  options(shiny.maxRequestSize = 100*1024^2)
 
   #check number of cores available for processing
   no.cores <- parallel::detectCores()
